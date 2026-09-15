@@ -62,5 +62,5 @@ All API routes are namespaced under `/api`.
 
 ## Authors
 
-- Shahar Ak (shaharak0606@gmail.com)
+- Shahar Akiva (shaharak0606@gmail.com)
 - *(partner name here)*
