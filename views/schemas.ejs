@@ -1,0 +1,28 @@
+<%- include('partials/head', { title: 'Resource Schemas', extraCss: '/css/schemas.css' }) %>
+
+<header class="site-header">
+  <h1>Resource Schemas</h1>
+  <nav class="site-nav"><a href="/">Back to game</a></nav>
+</header>
+
+<main class="schemas-container">
+  <% resources.forEach(function(resource) { %>
+  <section class="schema-card">
+    <h2><%= resource.resource %></h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th></tr>
+        </thead>
+        <tbody>
+          <% resource.fields.forEach(function(field) { %>
+          <tr><td><%= field.name %></td><td><%= field.type %></td></tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <% }); %>
+</main>
+
+<%- include('partials/footer') %>

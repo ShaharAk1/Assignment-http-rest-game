@@ -1,0 +1,58 @@
+<%- include('partials/head', { title: 'HTTP & REST Game', extraCss: '/css/game.css' }) %>
+
+<header class="site-header">
+  <h1>HTTP &amp; REST Learning Game</h1>
+  <nav class="site-nav"><a href="/schemas">View resource schemas</a></nav>
+</header>
+
+<main class="game-container">
+  <section class="progress-bar" id="progress-bar">
+    <span id="stage-indicator">Stage 1 of <%= totalStages %></span>
+    <span id="score-indicator">Score: 0</span>
+    <button id="reset-progress-btn" type="button">Reset progress</button>
+  </section>
+
+  <nav class="stage-nav" id="stage-nav" aria-label="Stage navigation"></nav>
+
+  <section class="stage-panel">
+    <h2 id="stage-title"></h2>
+    <p id="stage-description"></p>
+  </section>
+
+  <section class="builder-panel" id="request-builder">
+    <div class="field-group">
+      <label for="method-select">Method</label>
+      <select id="method-select"></select>
+    </div>
+    <div class="field-group">
+      <label for="path-input">Path</label>
+      <input id="path-input" type="text" autocomplete="off" spellcheck="false" />
+    </div>
+    <div class="field-group" id="query-builder">
+      <label>Query parameters</label>
+      <div id="query-rows"></div>
+      <button type="button" id="add-query-row-btn">+ Add parameter</button>
+    </div>
+    <div class="field-group" id="body-builder">
+      <label for="body-input">Request body (JSON)</label>
+      <textarea id="body-input" rows="6" spellcheck="false"></textarea>
+    </div>
+    <button type="button" id="send-request-btn" class="primary-btn">Send request</button>
+  </section>
+
+  <section class="response-panel" id="response-panel">
+    <h3>Response</h3>
+    <div id="status-badge" class="status-badge" hidden></div>
+    <div id="result-message" class="result-message" hidden></div>
+    <pre id="response-body"></pre>
+  </section>
+</main>
+
+<script src="/js/stagesConfig.js"></script>
+<script src="/js/progress.js"></script>
+<script src="/js/apiClient.js"></script>
+<script src="/js/requestBuilder.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/main.js"></script>
+
+<%- include('partials/footer') %>
