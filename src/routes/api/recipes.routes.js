@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const recipesData = require('../../data/recipes');
 const ingredientsData = require('../../data/ingredients');
-const { stageGrader } = require('../../stages/stageGrader');
+const { validateIdParam } = require('../../middleware/errorHandler');
 
-router.use(stageGrader);
+router.param('id', validateIdParam);
 
 const DIFFICULTIES = ['easy', 'medium', 'hard'];
 const SORTABLE_FIELDS = ['title', 'prepTime', 'servings'];
@@ -102,6 +102,9 @@ router.post('/:id/ingredients', (req, res) => {
   const body = req.body || {};
   if (!isNonEmptyString(body.name) || !isNonEmptyString(body.quantity)) {
     return res.status(400).json({ error: 'name and quantity are required.' });
+  }
+  if (body.optional !== undefined && typeof body.optional !== 'boolean') {
+    return res.status(400).json({ error: 'optional must be a boolean.' });
   }
   const ingredient = ingredientsData.create({
     recipeId: id,

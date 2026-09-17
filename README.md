@@ -27,12 +27,35 @@ The server listens on port `3000` by default (override with the `PORT` environme
 
 ## Features
 
-- A single stage: fetch the full recipe list with a plain GET request
-- Score and attempt tracking, with progress persisted in the browser via `localStorage`
+- **13 stages**, each practicing a different concept or combination of concepts (see table below)
+- A request builder with HTTP method, path, **route parameters** (`:id` placeholders), **query parameters**, a **JSON request body**, and a live request preview
+- The real server response is shown: status code, returned JSON, and a success/error verdict
+- Per-part feedback (method / path / query / body / status) that tells you *what* is wrong without revealing the answer
+- Score (10 points on the first try, 5 afterwards), attempt counter per stage, progress saved in `localStorage`
+- Go back to any stage you've already unlocked, and a "Next stage" button after solving one
+- **Reset data** button that restores the server's in-memory data (useful after deleting or editing records)
 - Fully AJAX-driven — no page reloads while playing
-- A separate `/schemas` page (server-rendered) documenting each resource's fields and types
+- A separate `/schemas` page (server-rendered with EJS) documenting each resource's fields and types
+- Retro arcade look with a **Day / Night** toggle (remembered in `localStorage`), level-select tiles, "Level clear!" banners, confetti and a win screen
+- Responsive layout for mobile and desktop
 
-> **Note:** the assignment requires a minimum of 8 stages exercising GET/POST/PUT/PATCH/DELETE, route params, query params, request bodies, and error handling. This build intentionally keeps only stage 1 and will not meet that requirement as-is. The full REST API below still supports everything needed to restore the remaining stages.
+## Stages
+
+| # | Scenario | Concepts |
+|---|---|---|
+| 1 | Browse the cookbook | GET |
+| 2 | Open a single recipe | GET, route parameter |
+| 3 | Filter by cuisine | GET, query parameter |
+| 4 | Search and sort | GET, multiple query parameters |
+| 5 | A recipe's ingredients | GET, route parameter, related resources |
+| 6 | What can I skip? | GET, multiple query parameters, related resources |
+| 7 | A broken link | GET, route parameter, 404 error |
+| 8 | Share a new recipe | POST, request body, 201 Created |
+| 9 | Incomplete submission | POST, request body, 400 Bad Request |
+| 10 | Add an ingredient to a recipe | POST, route parameter, request body |
+| 11 | Fix one field | PATCH, route parameter, request body |
+| 12 | Replace an ingredient | PUT, route parameter, request body |
+| 13 | Remove a recipe | DELETE, route parameter |
 
 ## API overview
 
@@ -52,15 +75,19 @@ All API routes are namespaced under `/api`.
 | GET | `/api/ingredients/:id` | Get a single ingredient |
 | PUT | `/api/ingredients/:id` | Update an ingredient |
 | DELETE | `/api/ingredients/:id` | Delete an ingredient |
+| GET | `/api/stages` | Public stage descriptions (no solutions) |
+| POST | `/api/reset` | Restore the in-memory data to its initial state |
+
+Invalid ids (e.g. `/api/recipes/abc`) return `400`, missing resources return `404`, invalid bodies return `400` with details.
 
 **Note:** `DELETE` requests return `200` with a small JSON confirmation body (instead of `204 No Content`), so the game can display returned data and the stage verdict together for every response.
 
 ## Architecture notes
 
-- Stage "answers" (`src/stages/stageDefinitions.js`) live only on the server and are never sent to the client. Every in-game request carries an `X-Stage-Id` header on the *actual* REST call being attempted; middleware (`src/stages/stageGrader.js`) grades the real incoming request (method, path, query, body, status) against that stage's requirements and attaches the verdict to the response. There is no separate "tell the server what you did" endpoint — the server only ever grades what it actually received.
+- Stage "answers" (the `solution` of each stage in `src/stages/stageDefinitions.js`) live only on the server and are never sent to the client; `GET /api/stages` exposes only titles and descriptions. Every in-game request carries an `X-Stage-Id` header on the *actual* REST call being attempted; middleware (`src/stages/stageGrader.js`) is mounted on `/api` and grades the real incoming request (method, path, query, body, status) against that stage's requirements, attaching the verdict (`stage: { correct, message, checks }`) to the response — including 404/400 error responses. There is no separate "tell the server what you did" endpoint — the server only ever grades what it actually received.
 - Data is stored in memory (`src/data/*.js`) and resets whenever the server restarts — by design, since the assignment does not permit a database.
 
 ## Authors
 
 - Shahar Akiva (shaharak0606@gmail.com)
-- *(partner name here)*
+- David Norman (davnor10@gmail.com)

@@ -1,54 +1,123 @@
 <%- include('partials/head', { title: 'HTTP & REST Game', extraCss: '/css/game.css' }) %>
 
-<header class="site-header">
-  <h1>HTTP &amp; REST Learning Game</h1>
-  <nav class="site-nav"><a href="/schemas">View resource schemas</a></nav>
-</header>
+<main id="main" class="container game">
+  <!-- ===== HUD ===== -->
+  <section class="hud card" aria-label="Game status">
+    <div class="hud__level">
+      <p class="pixel-label"><span class="pulse-dot"></span> Player 1 — Ready</p>
+      <p class="hud__stage" id="stage-indicator">Stage 1 of <%= totalStages %></p>
+    </div>
 
-<main class="game-container">
-  <section class="progress-bar" id="progress-bar">
-    <span id="stage-indicator">Stage 1 of <%= totalStages %></span>
-    <span id="score-indicator">Score: 0</span>
-    <button id="reset-progress-btn" type="button">Reset progress</button>
+    <div class="xp">
+      <div class="xp__head"><span>Stages cleared</span><span id="xp-text">0 / <%= totalStages %></span></div>
+      <div class="xp__bar"><span id="xp-fill"></span></div>
+    </div>
+
+    <ul class="hud__stats">
+      <li class="hud__stat hud__stat--score">
+        <strong id="score-value">0</strong><span>Score</span>
+        <span id="score-pop" class="score-pop" aria-hidden="true"></span>
+      </li>
+      <li class="hud__stat"><strong id="attempts-value">0</strong><span>Tries</span></li>
+    </ul>
+
+    <div class="hud__actions">
+      <button id="reset-data-btn" type="button" class="btn btn--small" title="Restore recipes and ingredients to their initial state">↺ Reset data</button>
+      <button id="reset-progress-btn" type="button" class="btn btn--small btn--ghost">✕ Reset progress</button>
+    </div>
   </section>
 
-  <nav class="stage-nav" id="stage-nav" aria-label="Stage navigation"></nav>
+  <!-- ===== LEVEL SELECT ===== -->
+  <nav class="level-map" id="stage-nav" aria-label="Stage select"></nav>
 
-  <section class="stage-panel">
-    <h2 id="stage-title"></h2>
-    <p id="stage-description"></p>
+  <!-- ===== QUEST ===== -->
+  <section class="quest card" aria-labelledby="stage-title">
+    <div class="quest__header">
+      <span class="section-header__number" id="stage-number">01</span>
+      <div class="quest__heading">
+        <p class="pixel-label">Quest</p>
+        <h1 id="stage-title">Loading stages…</h1>
+      </div>
+      <span id="stage-completed-badge" class="badge badge--mint quest__cleared" hidden><span class="glyph">★</span> Cleared</span>
+    </div>
+    <p id="stage-description" class="quest__description"></p>
+    <ul id="stage-concepts" class="tags" aria-label="Concepts practiced"></ul>
   </section>
 
-  <section class="builder-panel" id="request-builder">
-    <div class="field-group">
-      <label for="method-select">Method</label>
-      <select id="method-select"></select>
+  <!-- ===== REQUEST CONSOLE ===== -->
+  <section class="console card" id="request-builder" aria-labelledby="console-title">
+    <h2 class="card__title" id="console-title">🕹️ Request console</h2>
+
+    <div class="request-line">
+      <div class="method-group">
+        <label for="method-select">Method</label>
+        <select id="method-select" data-method="GET"></select>
+      </div>
+      <div class="path-group">
+        <label for="path-input">Path</label>
+        <input id="path-input" type="text" autocomplete="off" spellcheck="false" placeholder="/api/..." />
+      </div>
     </div>
-    <div class="field-group">
-      <label for="path-input">Path</label>
-      <input id="path-input" type="text" autocomplete="off" spellcheck="false" />
+
+    <div class="field-group" id="route-builder" hidden>
+      <p class="field-label">Route parameters</p>
+      <p class="field-hint">Write a placeholder in the path (like <code>/api/things/:thingId</code>) and give it a value here.</p>
+      <div id="route-rows" class="kv-rows"></div>
+      <button type="button" id="add-route-row-btn" class="btn btn--small btn--ghost">+ Add route parameter</button>
     </div>
-    <div class="field-group" id="query-builder">
-      <label>Query parameters</label>
-      <div id="query-rows"></div>
-      <button type="button" id="add-query-row-btn">+ Add parameter</button>
+
+    <div class="field-group" id="query-builder" hidden>
+      <p class="field-label">Query parameters</p>
+      <div id="query-rows" class="kv-rows"></div>
+      <button type="button" id="add-query-row-btn" class="btn btn--small btn--ghost">+ Add query parameter</button>
     </div>
-    <div class="field-group" id="body-builder">
+
+    <div class="field-group" id="body-builder" hidden>
       <label for="body-input">Request body (JSON)</label>
-      <textarea id="body-input" rows="6" spellcheck="false"></textarea>
+      <textarea id="body-input" rows="7" spellcheck="false"></textarea>
     </div>
-    <button type="button" id="send-request-btn" class="primary-btn">Send request</button>
+
+    <div class="field-group">
+      <p class="field-label">Request preview</p>
+      <p class="terminal terminal--line"><span class="terminal__prompt">&gt;</span> <code id="request-preview"></code><span class="terminal__cursor" aria-hidden="true"></span></p>
+    </div>
+
+    <p id="builder-error" class="builder-error" role="alert" hidden></p>
+    <button type="button" id="send-request-btn" class="btn btn--primary btn--pixel send-btn"><span class="glyph">▶</span> Send request</button>
   </section>
 
-  <section class="response-panel" id="response-panel">
-    <h3>Response</h3>
+  <!-- ===== RESPONSE ===== -->
+  <section class="response card" id="response-panel" aria-labelledby="response-title" aria-live="polite">
+    <h2 class="card__title" id="response-title">📡 Server response</h2>
+
+    <div id="response-placeholder" class="response__placeholder">
+      <p class="response__insert">Insert request</p>
+      <p class="muted">Build a request in the console and press send — the real server's answer shows up here.</p>
+    </div>
+
     <div id="status-badge" class="status-badge" hidden></div>
-    <div id="result-message" class="result-message" hidden></div>
-    <pre id="response-body"></pre>
+    <div id="result-message" class="result-banner" hidden></div>
+    <ul id="check-list" class="check-list" hidden></ul>
+    <button type="button" id="next-stage-btn" class="btn btn--mint btn--pixel next-btn" hidden>Next stage <span class="glyph">▶</span></button>
+    <pre id="response-body" class="terminal terminal--block" hidden></pre>
   </section>
 </main>
 
-<script src="/js/stagesConfig.js"></script>
+<!-- ===== WIN SCREEN ===== -->
+<div id="win-screen" class="win-screen" role="dialog" aria-modal="true" aria-labelledby="win-title" hidden>
+  <div class="win-screen__card card">
+    <p class="pixel-label"><span class="pulse-dot"></span> All stages cleared</p>
+    <h2 id="win-title" class="win-screen__title">You win!</h2>
+    <p class="win-screen__score">Final score: <strong id="win-score">0</strong></p>
+    <p class="muted">You spoke fluent HTTP: GET, POST, PUT, PATCH, DELETE, route and query parameters, bodies and status codes.</p>
+    <div class="win-screen__actions">
+      <button type="button" id="win-close-btn" class="btn btn--mint">Keep exploring</button>
+      <button type="button" id="win-restart-btn" class="btn btn--primary">Play again</button>
+    </div>
+  </div>
+</div>
+<div id="confetti" class="confetti" aria-hidden="true"></div>
+
 <script src="/js/progress.js"></script>
 <script src="/js/apiClient.js"></script>
 <script src="/js/requestBuilder.js"></script>

@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 
 const pagesRouter = require('./src/routes/pages.routes');
+const gameRouter = require('./src/routes/api/game.routes');
 const recipesRouter = require('./src/routes/api/recipes.routes');
 const ingredientsRouter = require('./src/routes/api/ingredients.routes');
+const { stageGrader } = require('./src/stages/stageGrader');
 const { notFoundHandler, errorHandler } = require('./src/middleware/errorHandler');
 
 const app = express();
@@ -12,10 +14,14 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Grader goes first so every /api response (including 400/404/500) carries the stage verdict.
+app.use('/api', stageGrader);
+app.use(express.json());
+
 app.use('/', pagesRouter);
+app.use('/api', gameRouter);
 app.use('/api/recipes', recipesRouter);
 app.use('/api/ingredients', ingredientsRouter);
 

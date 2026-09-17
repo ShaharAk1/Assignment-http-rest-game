@@ -1,11 +1,12 @@
 async function sendRequest({ stageId, method, path, body }) {
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = { Accept: 'application/json' };
   if (stageId !== undefined && stageId !== null) {
     headers['X-Stage-Id'] = String(stageId);
   }
 
   const options = { method, headers };
   if (body !== undefined && method !== 'GET' && method !== 'DELETE') {
+    headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(body);
   }
 
@@ -18,4 +19,17 @@ async function sendRequest({ stageId, method, path, body }) {
   }
 
   return { status: response.status, data };
+}
+
+async function fetchStages() {
+  const { status, data } = await sendRequest({ method: 'GET', path: '/api/stages' });
+  if (status !== 200 || !data || !Array.isArray(data.data)) {
+    throw new Error('Could not load stages.');
+  }
+  return data.data;
+}
+
+async function resetServerData() {
+  const { status } = await sendRequest({ method: 'POST', path: '/api/reset' });
+  return status === 200;
 }

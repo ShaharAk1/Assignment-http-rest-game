@@ -1,4 +1,4 @@
-let ingredients = [
+const SEED = [
   // Margherita Pizza (1)
   { id: 1, recipeId: 1, name: 'Pizza dough', quantity: '1 ball', optional: false },
   { id: 2, recipeId: 1, name: 'Tomato sauce', quantity: '100ml', optional: false },
@@ -48,7 +48,15 @@ let ingredients = [
   { id: 32, recipeId: 8, name: 'Garam masala', quantity: '1 tbsp', optional: true },
 ];
 
-let nextId = ingredients.length + 1;
+let ingredients;
+let nextId;
+
+function reset() {
+  ingredients = SEED.map((i) => ({ ...i }));
+  nextId = ingredients.length + 1;
+}
+
+reset();
 
 function findAll() {
   return ingredients;
@@ -94,4 +102,4 @@ function removeByRecipeId(recipeId) {
   ingredients = ingredients.filter((i) => i.recipeId !== recipeId);
 }
 
-module.exports = { findAll, findById, findByRecipeId, create, replace, remove, removeByRecipeId };
+module.exports = { findAll, findById, findByRecipeId, create, replace, remove, removeByRecipeId, reset };
