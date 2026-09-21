@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A retro arcade game for learning HTTP and REST by sending real requests to a real server." />
+  <meta name="description" content="A kitchen-themed game for learning HTTP and REST by sending real requests to a real server." />
   <title><%= typeof title !== 'undefined' ? title : 'HTTP & REST Game' %></title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Fraunces:opsz,wght@9..144,800&family=Nunito:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/main.css" />
   <% if (typeof extraCss !== 'undefined') { %>
   <link rel="stylesheet" href="<%= extraCss %>" />
@@ -24,26 +24,26 @@
 
     <header class="site-header">
       <div class="container site-header__inner">
-        <a class="logo" href="/">REST<span>.exe</span></a>
+        <a class="logo" href="/">REST<span>aurant</span></a>
 
         <nav class="site-nav" aria-label="Main">
           <ul>
             <li><a href="/" <% if (typeof active !== 'undefined' && active === 'game') { %>aria-current="page"<% } %>>Play</a></li>
-            <li><a href="/schemas" <% if (typeof active !== 'undefined' && active === 'schemas') { %>aria-current="page"<% } %>>Schemas</a></li>
+            <li><a href="/schemas" <% if (typeof active !== 'undefined' && active === 'schemas') { %>aria-current="page"<% } %>>Pantry</a></li>
           </ul>
         </nav>
 
         <label for="theme-switch" class="theme-toggle">
-          <span class="sr-only">Toggle night mode</span>
+          <span class="sr-only">Toggle dinner mode</span>
           <span class="theme-toggle__track" aria-hidden="true"><span class="theme-toggle__knob"></span></span>
-          <span class="theme-toggle__text" aria-hidden="true"><span class="theme-toggle__day">Day</span><span class="theme-toggle__night">Night</span></span>
+          <span class="theme-toggle__text" aria-hidden="true"><span class="theme-toggle__day">Lunch</span><span class="theme-toggle__night">Dinner</span></span>
         </label>
       </div>
     </header>
 
     <div class="ticker" aria-hidden="true">
       <div class="ticker__track">
-        <span>★ Insert request</span><span>★ GET · POST · PUT · PATCH · DELETE</span><span>★ 200 OK</span><span>★ 201 Created</span><span>★ 404 Not Found</span><span>★ Now loading: /api</span>
-        <span>★ Insert request</span><span>★ GET · POST · PUT · PATCH · DELETE</span><span>★ 200 OK</span><span>★ 201 Created</span><span>★ 404 Not Found</span><span>★ Now loading: /api</span>
+        <span>🍴 Order up!</span><span>🍴 GET · POST · PUT · PATCH · DELETE</span><span>🍴 200 OK — bon appétit</span><span>🍴 201 Created — fresh from the oven</span><span>🍴 404 Not Found — 86'd</span><span>🍴 Now serving: /api</span>
+        <span>🍴 Order up!</span><span>🍴 GET · POST · PUT · PATCH · DELETE</span><span>🍴 200 OK — bon appétit</span><span>🍴 201 Created — fresh from the oven</span><span>🍴 404 Not Found — 86'd</span><span>🍴 Now serving: /api</span>
       </div>
     </div>

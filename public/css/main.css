@@ -1,79 +1,80 @@
 /* ==========================================================
-   HTTP & REST Game · shared arcade styles
-   The day/night switch is a hidden checkbox placed before .page,
+   HTTP & REST Game · shared kitchen styles
+   The lunch/dinner switch is a hidden checkbox placed before .page,
    so "#theme-switch:checked ~ .page" swaps every design token.
    ========================================================== */
 
-/* ---------- 1. Design tokens: DAY ---------- */
+/* ---------- 1. Design tokens: LUNCH (gingham tablecloth) ---------- */
 .page {
-  --bg: #fff3d6;
-  --surface: #ffffff;
-  --surface-2: #fff8e8;
-  --ink: #1d1433;
-  --muted: #5e5476;
-  --line: #1d1433;
-  --pink: #ff5c8a;
-  --mint: #2ed69a;
-  --blue: #4f7cff;
-  --sun: #ffc233;
-  --purple: #b58cff;
-  --on-accent: #1d1433;
-  --track: #f1e6cc;
-  --danger-bg: #ffd9e3;
-  --success-bg: #d4f7e8;
+  --bg: #fbf1e1;
+  --surface: #fffaf1;
+  --surface-2: #fdf3e3;
+  --ink: #3b2418;
+  --muted: #7a5a48;
+  --line: #3b2418;
+  --pink: #ef6a45;   /* tomato */
+  --mint: #6aa84f;   /* basil */
+  --blue: #36699a;   /* enamel pot */
+  --sun: #f4c04e;    /* butter */
+  --purple: #d69ac4; /* beet */
+  --on-accent: #3b2418;
+  --track: #f1e1c6;
+  --danger-bg: #fbd9cf;
+  --success-bg: #e2f1d6;
 
   --bw: 3px;
   --radius: 16px;
   --shadow: 4px 4px 0 var(--line);
   --shadow-hover: 7px 7px 0 var(--line);
   --shadow-sm: 3px 3px 0 var(--line);
-  --title-shadow: 3px 3px 0 var(--pink);
+  --title-shadow: 3px 3px 0 var(--sun);
 
-  --pattern: radial-gradient(rgba(29, 20, 51, 0.13) 1.5px, transparent 1.8px);
-  --pattern-size: 22px 22px;
-  --orb: var(--sun);
-  --orb-mask: none;
+  --pattern:
+    linear-gradient(90deg, rgba(239, 106, 69, 0.09) 50%, transparent 50%),
+    linear-gradient(rgba(239, 106, 69, 0.09) 50%, transparent 50%);
+  --pattern-size: 40px 40px;
+  /* a dinner plate */
+  --orb: radial-gradient(circle, #fffaf1 0 50%, #f1e1c6 51% 55%, #fffaf1 56% 68%, #e9d3ae 69%);
   --orb-shadow: 8px 8px 0 var(--line);
-  --floor-opacity: 0;
-  --rays-opacity: 0.9;
 
-  --font-display: "Bungee", "Arial Black", Impact, sans-serif;
-  --font-pixel: "Press Start 2P", "Courier New", monospace;
-  --font-body: "Space Grotesk", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-label: "Courier Prime", "Courier New", monospace;
+  --font-body: "Nunito", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-/* ---------- 2. Design tokens: NIGHT ---------- */
+/* ---------- 2. Design tokens: DINNER (candlelit kitchen) ---------- */
 .theme-switch:checked ~ .page {
-  --bg: #0c0320;
-  --surface: #160838;
-  --surface-2: #1f0d4a;
-  --ink: #f5efff;
-  --muted: #bcaedd;
-  --line: #ff3d9a;
-  --pink: #ff3d9a;
-  --mint: #00f0c8;
-  --blue: #8f73ff;
-  --sun: #ffe44d;
-  --purple: #c77dff;
-  --on-accent: #0c0320;
-  --track: #2a1760;
-  --danger-bg: #3a0b33;
-  --success-bg: #06332f;
+  --bg: #1b1411;
+  --surface: #271d18;
+  --surface-2: #30241d;
+  --ink: #f7ecdd;
+  --muted: #cbb29b;
+  --line: #e9a15a;   /* copper */
+  --pink: #ff7a55;
+  --mint: #8fd16e;
+  --blue: #7fb2e0;
+  --sun: #ffd36b;
+  --purple: #e3a6cf;
+  --on-accent: #1b1411;
+  --track: #3a2b22;
+  --danger-bg: #41201a;
+  --success-bg: #1f3319;
 
   --bw: 2px;
-  --shadow: 0 0 0 1px rgba(255, 61, 154, 0.6), 0 0 26px rgba(255, 61, 154, 0.35);
-  --shadow-hover: 0 0 0 1px var(--mint), 0 0 38px rgba(0, 240, 200, 0.5);
-  --shadow-sm: 0 0 14px rgba(255, 61, 154, 0.55);
-  --title-shadow: 0 0 6px rgba(255, 61, 154, 0.9), 0 0 22px rgba(255, 61, 154, 0.7);
+  --shadow: 0 0 0 1px rgba(233, 161, 90, 0.6), 0 0 26px rgba(255, 140, 60, 0.25);
+  --shadow-hover: 0 0 0 1px var(--sun), 0 0 38px rgba(255, 211, 107, 0.35);
+  --shadow-sm: 0 0 14px rgba(255, 140, 60, 0.4);
+  --title-shadow: 0 0 10px rgba(255, 140, 60, 0.7);
 
-  --pattern: radial-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1.4px);
-  --pattern-size: 46px 46px;
-  --orb: linear-gradient(180deg, #ffe44d 0%, #ff8a3d 45%, #ff3d9a 100%);
-  --orb-mask: linear-gradient(180deg, #000 52%, transparent 52%, transparent 57%, #000 57%, #000 66%, transparent 66%, transparent 71%, #000 71%, #000 79%, transparent 79%, transparent 85%, #000 85%);
-  --orb-shadow: 0 0 60px rgba(255, 61, 154, 0.55);
-  --floor-opacity: 0.45;
-  --rays-opacity: 0;
+  /* subway tiles */
+  --pattern:
+    linear-gradient(rgba(255, 255, 255, 0.04) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 2px, transparent 2px);
+  --pattern-size: 56px 28px;
+  /* a lit gas burner */
+  --orb: radial-gradient(circle, transparent 0 36%, #5aa0ff 38% 43%, #ff9a3c 45% 50%, #3a2b22 52% 70%, transparent 71%);
+  --orb-shadow: 0 0 60px rgba(255, 140, 60, 0.35);
 }
 
 /* ---------- 3. Base ---------- */
@@ -93,11 +94,11 @@ html {
 
 body {
   margin: 0;
-  background: #fff3d6;
+  background: #fbf1e1;
 }
 
 body:has(.theme-switch:checked) {
-  background: #0c0320;
+  background: #1b1411;
 }
 
 a {
@@ -146,7 +147,7 @@ code {
   color: var(--muted);
 }
 
-/* symbols like ★ ✓ ▶ are tiny in the pixel font, so draw them with the body font */
+/* symbols like ★ ✓ ▶ look off in the label font, so draw them with the body font */
 .glyph {
   font-family: var(--font-body);
   font-size: 1.35em;
@@ -196,7 +197,7 @@ code {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* sun by day, striped synthwave sun by night */
+/* a plate by lunch, a lit burner by dinner */
 .page::before {
   content: "";
   position: fixed;
@@ -207,53 +208,9 @@ code {
   border-radius: 50%;
   background: var(--orb);
   box-shadow: var(--orb-shadow);
-  -webkit-mask-image: var(--orb-mask);
-  mask-image: var(--orb-mask);
   opacity: 0.9;
   pointer-events: none;
   animation: float 9s ease-in-out infinite;
-}
-
-/* spinning sun rays (day only) */
-main::before {
-  content: "";
-  position: fixed;
-  top: 7rem;
-  right: -5rem;
-  z-index: -1;
-  width: clamp(9rem, 26vw, 20rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: repeating-conic-gradient(var(--sun) 0deg 8deg, transparent 8deg 22.5deg);
-  -webkit-mask-image: radial-gradient(closest-side, transparent 61%, #000 62%, #000 92%, transparent 100%);
-  mask-image: radial-gradient(closest-side, transparent 61%, #000 62%, #000 92%, transparent 100%);
-  scale: 1.9;
-  opacity: var(--rays-opacity);
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-  animation: float 9s ease-in-out infinite, spin 60s linear infinite;
-}
-
-/* neon grid floor (night only) */
-.page::after {
-  content: "";
-  position: fixed;
-  left: -50%;
-  bottom: -8vh;
-  width: 200%;
-  height: 48vh;
-  background-image:
-    linear-gradient(var(--blue) 2px, transparent 2px),
-    linear-gradient(90deg, var(--blue) 2px, transparent 2px);
-  background-size: 64px 64px;
-  transform: perspective(320px) rotateX(68deg);
-  transform-origin: bottom center;
-  -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 90%);
-  mask-image: linear-gradient(to top, #000 10%, transparent 90%);
-  opacity: var(--floor-opacity);
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-  animation: grid-run 1.6s linear infinite;
 }
 
 .site-header,
@@ -316,8 +273,8 @@ main {
   display: block;
   padding: 0.55rem 0.5rem;
   border-radius: 999px;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
@@ -365,8 +322,8 @@ main {
 
 .theme-toggle__text {
   display: none;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   text-transform: uppercase;
 }
 
@@ -391,14 +348,14 @@ main {
 }
 
 .theme-switch:checked ~ .page .theme-toggle__track {
-  background: linear-gradient(180deg, #1b0a3f, #3a1c7a);
+  background: linear-gradient(180deg, #2a1d17, #4a3326);
 }
 
 .theme-switch:checked ~ .page .theme-toggle__knob {
   transform: translate(1.7rem, -50%);
-  border-color: #f5efff;
-  background: #f5efff;
-  box-shadow: inset -0.45rem -0.15rem 0 0 #c9b8ff, 0 0 12px rgba(245, 239, 255, 0.8);
+  border-color: #f7ecdd;
+  background: #f7ecdd;
+  box-shadow: inset -0.45rem -0.15rem 0 0 #d8c2a6, 0 0 12px rgba(247, 236, 221, 0.8);
 }
 
 .theme-switch:checked ~ .page .theme-toggle__day {
@@ -417,8 +374,8 @@ main {
   background: var(--pink);
   color: var(--on-accent);
   border-bottom: var(--bw) solid var(--line);
-  font-family: var(--font-pixel);
-  font-size: 0.6rem;
+  font-family: var(--font-label);
+  font-size: 0.8rem;
   text-transform: uppercase;
 }
 
@@ -447,8 +404,8 @@ main {
   align-items: center;
   gap: 0.6rem;
   margin-bottom: 1.1rem;
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.88rem;
   font-weight: 400;
   line-height: 1.6;
   text-transform: uppercase;
@@ -459,8 +416,8 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--muted);
@@ -539,8 +496,8 @@ button:disabled {
 }
 
 .btn--pixel {
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.88rem;
   font-weight: 400;
   text-transform: uppercase;
   line-height: 1.5;
@@ -551,8 +508,8 @@ button:disabled {
   padding: 0.3rem 0.6rem;
   border: 2px solid var(--line);
   border-radius: 8px;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   line-height: 1.4;
   text-transform: uppercase;
   color: var(--on-accent);
@@ -623,8 +580,8 @@ label,
 .field-label {
   display: block;
   margin-bottom: 0.4rem;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--muted);
@@ -644,8 +601,8 @@ label,
   border-radius: 10px;
   background: var(--sun);
   color: var(--on-accent);
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.88rem;
   box-shadow: var(--shadow-sm);
 }
 
@@ -678,8 +635,8 @@ label,
 }
 
 .footer__back-to-top {
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   text-transform: uppercase;
   text-decoration: none;
   color: var(--ink);
@@ -689,14 +646,14 @@ label,
   color: var(--pink);
 }
 
-/* ---------- 10. Night-only extras ---------- */
+/* ---------- 10. Dinner-only extras ---------- */
 .theme-switch:checked ~ .page .section-header h1,
 .theme-switch:checked ~ .page .section-header h2 {
   color: #fff;
 }
 
 .theme-switch:checked ~ .page .ticker {
-  background: linear-gradient(90deg, var(--pink), var(--blue));
+  background: linear-gradient(90deg, var(--pink), var(--sun));
 }
 
 .theme-switch:checked ~ .page .logo span {
@@ -744,13 +701,6 @@ label,
   50% { transform: translateY(18px); }
 }
 
-@keyframes spin {
-  to { rotate: 360deg; }
-}
-
-@keyframes grid-run {
-  to { background-position: 0 64px; }
-}
 
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const winCloseBtn = document.getElementById('win-close-btn');
   const winRestartBtn = document.getElementById('win-restart-btn');
   const confetti = document.getElementById('confetti');
+  const stuckBtn = document.getElementById('stuck-btn');
+  const answerBox = document.getElementById('answer-box');
+  const answerText = document.getElementById('answer-text');
 
   function currentStage() {
     return stages.find((s) => s.id === activeStageId);
@@ -132,6 +135,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     stageTitleEl.textContent = stage.title;
     stageDescriptionEl.textContent = stage.description;
     renderConcepts(conceptsEl, stage.concepts);
+    stuckBtn.hidden = false;
+    answerBox.hidden = true;
 
     setMethod('GET');
     pathInput.value = '/api/';
@@ -228,7 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const stageId = activeStageId;
     sendBtn.disabled = true;
-    sendBtn.textContent = 'Sending…';
+    sendBtn.textContent = 'Cooking…';
     try {
       const { status, data } = await sendRequest({
         stageId,
@@ -250,7 +255,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderResultMessage(
           resultMessage,
           stageResult.correct ? 'success' : 'error',
-          stageResult.correct ? (wasCompleted ? 'Still correct!' : 'Level clear!') : 'Try again!',
+          stageResult.correct ? (wasCompleted ? 'Still delicious!' : 'Order up!') : 'Back to the stove!',
           stageResult.message
         );
         renderCheckList(checkList, stageResult.checks);
@@ -271,11 +276,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     } catch (err) {
       responsePlaceholder.hidden = true;
-      renderResultMessage(resultMessage, 'error', 'Game over?', 'Network error — is the server running?');
+      renderResultMessage(resultMessage, 'error', 'Kitchen closed?', 'Network error — is the server running?');
       replayAnimation(responsePanel, 'is-shaking');
     } finally {
       sendBtn.disabled = false;
-      sendBtn.innerHTML = '<span class="glyph">▶</span> Send request';
+      sendBtn.innerHTML = '<span class="glyph">🔥</span> Fire request';
     }
   }
 
@@ -296,6 +301,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   sendBtn.addEventListener('click', handleSend);
   pathInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') handleSend();
+  });
+
+  stuckBtn.addEventListener('click', async () => {
+    const stageId = activeStageId;
+    const canScore = !isCompleted(stageId) && !progress.revealedStageIds.includes(stageId);
+    if (canScore && !confirm('Show the answer? You won\'t earn points for this stage.')) return;
+    stuckBtn.disabled = true;
+    try {
+      const { request, body } = await fetchStageAnswer(stageId);
+      if (stageId !== activeStageId) return; // user switched stages while waiting
+      progress = recordReveal(progress, stageId);
+      answerText.textContent = body ? `${request}\n\n${JSON.stringify(body, null, 2)}` : request;
+      answerBox.hidden = false;
+      stuckBtn.hidden = true;
+    } catch (err) {
+      renderResultMessage(resultMessage, 'error', 'Kitchen closed?', 'Could not load the answer — is the server running?');
+    } finally {
+      stuckBtn.disabled = false;
+    }
   });
 
   nextStageBtn.addEventListener('click', () => {
@@ -335,7 +359,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ok ? 'Recipes and ingredients are back to their initial state.' : 'Could not reset the server data.'
       );
     } catch (err) {
-      renderResultMessage(resultMessage, 'error', 'Game over?', 'Network error — is the server running?');
+      renderResultMessage(resultMessage, 'error', 'Kitchen closed?', 'Network error — is the server running?');
     } finally {
       resetDataBtn.disabled = false;
     }

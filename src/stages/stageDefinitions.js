@@ -1,7 +1,8 @@
 // SERVER-ONLY answer key. Never import this from anything under public/.
 // Each stage has two parts:
 //   - public fields (title, description, concepts, inputs) — safe to send to the client
-//   - `solution` — method/path/query/body/status requirements, used only by the grader
+//   - `solution` — method/path/query/body/status requirements, used only by the grader,
+//     plus a readable `answer` sent only when the player asks for it ("Stuck?")
 
 function sameText(a, b) {
   return typeof a === 'string' && a.trim().toLowerCase() === b.toLowerCase();
@@ -21,6 +22,7 @@ const stages = [
     concepts: ['GET'],
     inputs: [],
     solution: {
+      answer: { request: 'GET /api/recipes' },
       method: 'GET',
       path: '/api/recipes',
       query: {},
@@ -35,6 +37,7 @@ const stages = [
     concepts: ['GET', 'Route parameter'],
     inputs: ['route'],
     solution: {
+      answer: { request: 'GET /api/recipes/5' },
       method: 'GET',
       path: '/api/recipes/5',
       query: {},
@@ -49,6 +52,7 @@ const stages = [
     concepts: ['GET', 'Query parameter'],
     inputs: ['query'],
     solution: {
+      answer: { request: 'GET /api/recipes?cuisine=Italian' },
       method: 'GET',
       path: '/api/recipes',
       query: { cuisine: (v) => sameText(v, 'Italian') },
@@ -65,6 +69,7 @@ const stages = [
     concepts: ['GET', 'Multiple query parameters'],
     inputs: ['query'],
     solution: {
+      answer: { request: 'GET /api/recipes?q=soup&sort=prepTime&order=desc' },
       method: 'GET',
       path: '/api/recipes',
       query: {
@@ -85,6 +90,7 @@ const stages = [
     concepts: ['GET', 'Route parameter', 'Related resources'],
     inputs: ['route'],
     solution: {
+      answer: { request: 'GET /api/recipes/3/ingredients' },
       method: 'GET',
       path: '/api/recipes/3/ingredients',
       query: {},
@@ -101,6 +107,7 @@ const stages = [
     concepts: ['GET', 'Multiple query parameters', 'Related resources'],
     inputs: ['query'],
     solution: {
+      answer: { request: 'GET /api/ingredients?recipeId=5&optional=true' },
       method: 'GET',
       path: '/api/ingredients',
       query: {
@@ -120,6 +127,7 @@ const stages = [
     concepts: ['GET', 'Route parameter', 'Error status codes'],
     inputs: ['route'],
     solution: {
+      answer: { request: 'GET /api/recipes/999' },
       method: 'GET',
       path: '/api/recipes/999',
       query: {},
@@ -137,6 +145,10 @@ const stages = [
     inputs: ['body'],
     bodyTemplate: { title: '', cuisine: '', prepTime: 0, difficulty: '', servings: 0 },
     solution: {
+      answer: {
+        request: 'POST /api/recipes',
+        body: { title: 'Shakshuka', cuisine: 'Israeli', prepTime: 30, difficulty: 'easy', servings: 2 },
+      },
       method: 'POST',
       path: '/api/recipes',
       query: {},
@@ -159,6 +171,7 @@ const stages = [
     concepts: ['POST', 'Request body', '400 Bad Request'],
     inputs: ['body'],
     solution: {
+      answer: { request: 'POST /api/recipes', body: { title: 'Mystery Stew' } },
       method: 'POST',
       path: '/api/recipes',
       query: {},
@@ -177,6 +190,10 @@ const stages = [
     inputs: ['route', 'body'],
     bodyTemplate: { name: '', quantity: '', optional: false },
     solution: {
+      answer: {
+        request: 'POST /api/recipes/4/ingredients',
+        body: { name: 'Balsamic glaze', quantity: '1 tbsp', optional: true },
+      },
       method: 'POST',
       path: '/api/recipes/4/ingredients',
       query: {},
@@ -194,6 +211,7 @@ const stages = [
     concepts: ['PATCH', 'Route parameter', 'Request body'],
     inputs: ['route', 'body'],
     solution: {
+      answer: { request: 'PATCH /api/recipes/8', body: { servings: 6 } },
       method: 'PATCH',
       path: '/api/recipes/8',
       query: {},
@@ -212,6 +230,7 @@ const stages = [
     inputs: ['route', 'body'],
     bodyTemplate: { name: '', quantity: '', optional: false },
     solution: {
+      answer: { request: 'PUT /api/ingredients/20', body: { name: 'Cashews', quantity: '60g', optional: true } },
       method: 'PUT',
       path: '/api/ingredients/20',
       query: {},
@@ -229,6 +248,7 @@ const stages = [
     concepts: ['DELETE', 'Route parameter'],
     inputs: ['route'],
     solution: {
+      answer: { request: 'DELETE /api/recipes/7' },
       method: 'DELETE',
       path: '/api/recipes/7',
       query: {},
@@ -259,4 +279,10 @@ function getPublicStages() {
   }));
 }
 
-module.exports = { getStageDefinition, getStageCount, getPublicStages };
+// The readable answer for one stage — only sent when the player clicks "Stuck?".
+function getStageAnswer(stageId) {
+  const stage = getStageDefinition(stageId);
+  return stage ? stage.solution.answer : null;
+}
+
+module.exports = { getStageDefinition, getStageCount, getPublicStages, getStageAnswer };

@@ -95,8 +95,8 @@ tbody tr:nth-child(even) {
 
 th {
   background: var(--track);
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   font-weight: 400;
   text-transform: uppercase;
   color: var(--muted);
@@ -113,8 +113,8 @@ th {
 }
 
 .type-chip--number { background: var(--blue); color: #fff; }
-.type-chip--string { background: var(--sun); color: #1d1433; }
-.type-chip--boolean { background: var(--mint); color: #1d1433; }
+.type-chip--string { background: var(--sun); color: #3b2418; }
+.type-chip--boolean { background: var(--mint); color: #3b2418; }
 
 .schemas__back {
   margin-top: 2rem;

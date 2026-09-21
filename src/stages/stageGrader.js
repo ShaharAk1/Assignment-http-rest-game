@@ -42,7 +42,10 @@ function gradeRequest(stageId, req, statusCode) {
     path: normalizePath(req) === solution.path,
     query: checkQuery(solution.query || {}, req.query || {}),
   };
-  if (solution.body) {
+  // GET/DELETE requests carry no body, so with a wrong method there's no body to judge — skip it
+  // rather than blaming a body the player wrote correctly.
+  const receivedBody = req.headers['content-length'] > 0 || 'transfer-encoding' in req.headers;
+  if (solution.body && (checks.method || receivedBody)) {
     checks.body = solution.body(body);
   }
   checks.status = statusCode === solution.status;

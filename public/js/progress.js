@@ -1,7 +1,7 @@
 const PROGRESS_KEY = 'httpGameProgress';
 
 function defaultProgress() {
-  return { currentStage: 1, completedStageIds: [], attemptsPerStage: {}, score: 0 };
+  return { currentStage: 1, completedStageIds: [], attemptsPerStage: {}, revealedStageIds: [], score: 0 };
 }
 
 function loadProgress() {
@@ -29,10 +29,16 @@ function recordAttempt(progress, stageId, wasCorrect) {
 
   if (wasCorrect && !progress.completedStageIds.includes(stageId)) {
     progress.completedStageIds.push(stageId);
-    progress.score += priorAttempts === 0 ? 10 : 5;
+    if (!progress.revealedStageIds.includes(stageId)) progress.score += priorAttempts === 0 ? 10 : 5;
     progress.currentStage = Math.max(progress.currentStage, stageId + 1);
   }
 
+  saveProgress(progress);
+  return progress;
+}
+
+function recordReveal(progress, stageId) {
+  if (!progress.revealedStageIds.includes(stageId)) progress.revealedStageIds.push(stageId);
   saveProgress(progress);
   return progress;
 }

@@ -4,12 +4,12 @@
   <!-- ===== HUD ===== -->
   <section class="hud card" aria-label="Game status">
     <div class="hud__level">
-      <p class="pixel-label"><span class="pulse-dot"></span> Player 1 — Ready</p>
+      <p class="pixel-label"><span class="pulse-dot"></span> Chef on duty</p>
       <p class="hud__stage" id="stage-indicator">Stage 1 of <%= totalStages %></p>
     </div>
 
     <div class="xp">
-      <div class="xp__head"><span>Stages cleared</span><span id="xp-text">0 / <%= totalStages %></span></div>
+      <div class="xp__head"><span>Dishes served</span><span id="xp-text">0 / <%= totalStages %></span></div>
       <div class="xp__bar"><span id="xp-fill"></span></div>
     </div>
 
@@ -35,18 +35,25 @@
     <div class="quest__header">
       <span class="section-header__number" id="stage-number">01</span>
       <div class="quest__heading">
-        <p class="pixel-label">Quest</p>
+        <p class="pixel-label">Today's order</p>
         <h1 id="stage-title">Loading stages…</h1>
       </div>
       <span id="stage-completed-badge" class="badge badge--mint quest__cleared" hidden><span class="glyph">★</span> Cleared</span>
     </div>
     <p id="stage-description" class="quest__description"></p>
     <ul id="stage-concepts" class="tags" aria-label="Concepts practiced"></ul>
+    <div class="stuck">
+      <button type="button" id="stuck-btn" class="btn btn--small btn--ghost">🧑‍🍳 Stuck?</button>
+      <div id="answer-box" class="stuck__answer" hidden>
+        <p class="pixel-label">Chef's answer <span class="muted">(no points for this stage)</span></p>
+        <pre id="answer-text" class="terminal terminal--block"></pre>
+      </div>
+    </div>
   </section>
 
   <!-- ===== REQUEST CONSOLE ===== -->
   <section class="console card" id="request-builder" aria-labelledby="console-title">
-    <h2 class="card__title" id="console-title">🕹️ Request console</h2>
+    <h2 class="card__title" id="console-title">🔪 Prep station</h2>
 
     <div class="request-line">
       <div class="method-group">
@@ -83,22 +90,22 @@
     </div>
 
     <p id="builder-error" class="builder-error" role="alert" hidden></p>
-    <button type="button" id="send-request-btn" class="btn btn--primary btn--pixel send-btn"><span class="glyph">▶</span> Send request</button>
+    <button type="button" id="send-request-btn" class="btn btn--primary btn--pixel send-btn"><span class="glyph">🔥</span> Fire request</button>
   </section>
 
   <!-- ===== RESPONSE ===== -->
   <section class="response card" id="response-panel" aria-labelledby="response-title" aria-live="polite">
-    <h2 class="card__title" id="response-title">📡 Server response</h2>
+    <h2 class="card__title" id="response-title">🍽️ From the kitchen</h2>
 
     <div id="response-placeholder" class="response__placeholder">
-      <p class="response__insert">Insert request</p>
-      <p class="muted">Build a request in the console and press send — the real server's answer shows up here.</p>
+      <p class="response__insert">Waiting for an order</p>
+      <p class="muted">Prep a request at the station and fire it — the real server's answer is plated here.</p>
     </div>
 
     <div id="status-badge" class="status-badge" hidden></div>
     <div id="result-message" class="result-banner" hidden></div>
     <ul id="check-list" class="check-list" hidden></ul>
-    <button type="button" id="next-stage-btn" class="btn btn--mint btn--pixel next-btn" hidden>Next stage <span class="glyph">▶</span></button>
+    <button type="button" id="next-stage-btn" class="btn btn--mint btn--pixel next-btn" hidden>Next course <span class="glyph">▶</span></button>
     <pre id="response-body" class="terminal terminal--block" hidden></pre>
   </section>
 </main>
@@ -106,13 +113,13 @@
 <!-- ===== WIN SCREEN ===== -->
 <div id="win-screen" class="win-screen" role="dialog" aria-modal="true" aria-labelledby="win-title" hidden>
   <div class="win-screen__card card">
-    <p class="pixel-label"><span class="pulse-dot"></span> All stages cleared</p>
-    <h2 id="win-title" class="win-screen__title">You win!</h2>
+    <p class="pixel-label"><span class="pulse-dot"></span> Every dish served</p>
+    <h2 id="win-title" class="win-screen__title">Chef's kiss!</h2>
     <p class="win-screen__score">Final score: <strong id="win-score">0</strong></p>
     <p class="muted">You spoke fluent HTTP: GET, POST, PUT, PATCH, DELETE, route and query parameters, bodies and status codes.</p>
     <div class="win-screen__actions">
       <button type="button" id="win-close-btn" class="btn btn--mint">Keep exploring</button>
-      <button type="button" id="win-restart-btn" class="btn btn--primary">Play again</button>
+      <button type="button" id="win-restart-btn" class="btn btn--primary">Cook again</button>
     </div>
   </div>
 </div>

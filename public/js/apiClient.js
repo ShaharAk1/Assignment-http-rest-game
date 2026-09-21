@@ -29,6 +29,14 @@ async function fetchStages() {
   return data.data;
 }
 
+async function fetchStageAnswer(stageId) {
+  const { status, data } = await sendRequest({ method: 'GET', path: `/api/stages/${stageId}/answer` });
+  if (status !== 200 || !data || !data.data) {
+    throw new Error('Could not load the answer.');
+  }
+  return data.data;
+}
+
 async function resetServerData() {
   const { status } = await sendRequest({ method: 'POST', path: '/api/reset' });
   return status === 200;

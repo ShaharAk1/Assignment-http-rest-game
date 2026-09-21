@@ -27,8 +27,8 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.4rem;
-  font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
   text-transform: uppercase;
 }
 
@@ -88,8 +88,8 @@
   position: absolute;
   top: -0.4rem;
   right: 0.4rem;
-  font-family: var(--font-pixel);
-  font-size: 0.7rem !important;
+  font-family: var(--font-label);
+  font-size: 0.88rem !important;
   color: var(--mint) !important;
   -webkit-text-stroke: 0.5px var(--line);
   opacity: 0;
@@ -127,8 +127,8 @@
   background: var(--surface);
   color: var(--ink);
   box-shadow: var(--shadow-sm);
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.88rem;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;
 }
 
@@ -154,7 +154,7 @@
   border: 2px solid var(--line);
   border-radius: 50%;
   background: var(--sun);
-  color: #1d1433;
+  color: #3b2418;
   font-family: var(--font-body);
   font-size: 0.75rem;
   line-height: 1;
@@ -221,6 +221,20 @@
   font-size: 1.05rem;
 }
 
+/* ---------- Stuck? ---------- */
+.stuck {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+}
+
+.stuck__answer {
+  display: grid;
+  gap: 0.4rem;
+  width: 100%;
+  animation: pop-in 0.3s ease-out;
+}
+
 /* ---------- Console ---------- */
 .console,
 .response {
@@ -241,15 +255,15 @@
 }
 
 #method-select {
-  font-family: var(--font-pixel);
-  font-size: 0.65rem;
-  color: #1d1433;
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  color: #3b2418;
   cursor: pointer;
 }
 
 #method-select option {
   background: #fff;
-  color: #1d1433;
+  color: #3b2418;
 }
 
 #method-select[data-method="GET"] { background-color: var(--mint); }
@@ -306,25 +320,25 @@
   transform: rotate(8deg);
 }
 
-/* terminal look (always dark, in both themes) */
+/* chalkboard look (always dark, in both themes) */
 .terminal {
   border: var(--bw) solid var(--line);
   border-radius: 12px;
-  background: #1d1433;
-  color: #e9e3ff;
+  background: #2e3b32;
+  color: #f1ede4;
   font-family: var(--font-mono);
   font-size: 0.88rem;
 }
 
 .theme-switch:checked ~ .page .terminal {
-  background: #07010f;
+  background: #1f2922;
 }
 
 .terminal code {
   padding: 0;
   background: none;
   font-size: inherit;
-  color: #2ed69a;
+  color: #b9e3a0;
 }
 
 .terminal--line {
@@ -337,7 +351,7 @@
 }
 
 .terminal__prompt {
-  color: #ff5c8a;
+  color: #ff9a7a;
   font-weight: 700;
 }
 
@@ -345,7 +359,7 @@
   flex-shrink: 0;
   width: 0.55rem;
   height: 1.05rem;
-  background: #ffc233;
+  background: #f4c04e;
   animation: blink 1.1s steps(2, start) infinite;
 }
 
@@ -356,7 +370,7 @@
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.5;
-  scrollbar-color: #5e5476 transparent;
+  scrollbar-color: #7a8a7e transparent;
 }
 
 .builder-error {
@@ -403,10 +417,10 @@
   border: var(--bw) solid var(--line);
   border-radius: 10px;
   box-shadow: var(--shadow-sm);
-  font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 0.88rem;
   line-height: 1.4;
-  color: #1d1433;
+  color: #3b2418;
   background: var(--surface-2);
   animation: pop-in 0.3s ease-out;
 }
@@ -466,7 +480,7 @@
 
 .theme-switch:checked ~ .page .result-success .result-banner__title {
   -webkit-text-stroke: 0;
-  text-shadow: 0 0 12px rgba(0, 240, 200, 0.7);
+  text-shadow: 0 0 12px rgba(143, 209, 110, 0.7);
 }
 
 .check-list {
@@ -480,11 +494,11 @@
   padding: 0.25rem 0.6rem;
   border: 2px solid var(--line);
   border-radius: 8px;
-  font-family: var(--font-pixel);
-  font-size: 0.5rem;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
   line-height: 1.6;
   text-transform: uppercase;
-  color: #1d1433;
+  color: #3b2418;
   animation: pop-in 0.3s ease-out both;
 }
 
@@ -513,7 +527,7 @@
   display: grid;
   place-items: center;
   padding: 1rem;
-  background: rgba(29, 20, 51, 0.6);
+  background: rgba(59, 36, 24, 0.6);
   backdrop-filter: blur(3px);
   animation: fade-in 0.3s ease;
 }
@@ -539,8 +553,8 @@
 }
 
 .win-screen__score {
-  font-family: var(--font-pixel);
-  font-size: 0.75rem;
+  font-family: var(--font-label);
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
@@ -567,10 +581,9 @@
 .confetti__piece {
   position: absolute;
   top: -1rem;
-  width: 0.6rem;
-  height: 0.9rem;
-  border: 2px solid #1d1433;
-  border-radius: 2px;
+  width: 0.4rem;
+  height: 1rem;
+  border-radius: 999px;
   animation: confetti-fall var(--duration, 1.8s) cubic-bezier(0.3, 0.6, 0.6, 1) forwards;
 }
 

@@ -19,7 +19,7 @@ const CHECK_LABELS = {
   status: 'Status',
 };
 
-const CONFETTI_COLORS = ['#ff5c8a', '#2ed69a', '#4f7cff', '#ffc233', '#b58cff'];
+const CONFETTI_COLORS = ['#ef6a45', '#6aa84f', '#36699a', '#f4c04e', '#d69ac4'];
 
 function renderStatusBadge(el, status) {
   el.hidden = false;
