@@ -569,6 +569,51 @@
   gap: 0.7rem;
 }
 
+/* ---------- Delete warning toast ---------- */
+.delete-toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: auto;
+  z-index: 55;
+  width: min(22rem, calc(100vw - 2rem));
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.delete-toast__card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem 1.1rem;
+  background: var(--danger-bg);
+}
+
+.delete-toast__label {
+  color: var(--pink);
+}
+
+.delete-toast__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.15;
+}
+
+.delete-toast__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 480px) {
+  .delete-toast {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+}
+
 /* ---------- Confetti ---------- */
 .confetti {
   position: fixed;

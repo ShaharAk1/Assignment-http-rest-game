@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const responseBody = document.getElementById('response-body');
   const resetProgressBtn = document.getElementById('reset-progress-btn');
   const resetDataBtn = document.getElementById('reset-data-btn');
+  const deleteToast = document.getElementById('delete-toast');
+  const deleteToastResetBtn = document.getElementById('delete-toast-reset-btn');
+  const deleteToastDismissBtn = document.getElementById('delete-toast-dismiss-btn');
   const winScreen = document.getElementById('win-screen');
   const winScore = document.getElementById('win-score');
   const winCloseBtn = document.getElementById('win-close-btn');
@@ -247,6 +250,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderStatusBadge(statusBadge, status);
       renderResponseBody(responseBody, data);
 
+      if (request.method === 'DELETE' && status >= 200 && status < 300) {
+        scheduleDeleteWarning();
+      }
+
       const stageResult = data && data.stage;
       if (stageResult) {
         const wasCompleted = isCompleted(stageId);
@@ -346,8 +353,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (event.key === 'Escape' && !winScreen.hidden) winScreen.hidden = true;
   });
 
-  resetDataBtn.addEventListener('click', async () => {
-    resetDataBtn.disabled = true;
+  async function performDataReset(triggerBtn) {
+    triggerBtn.disabled = true;
     try {
       const ok = await resetServerData();
       clearResponse();
@@ -358,12 +365,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         ok ? 'Data reset' : 'Reset failed',
         ok ? 'Recipes and ingredients are back to their initial state.' : 'Could not reset the server data.'
       );
+      if (ok) hideDeleteWarning();
     } catch (err) {
       renderResultMessage(resultMessage, 'error', 'Kitchen closed?', 'Network error — is the server running?');
     } finally {
-      resetDataBtn.disabled = false;
+      triggerBtn.disabled = false;
     }
-  });
+  }
+
+  resetDataBtn.addEventListener('click', () => performDataReset(resetDataBtn));
+
+  let deleteWarningTimer = null;
+
+  function scheduleDeleteWarning() {
+    clearTimeout(deleteWarningTimer);
+    deleteWarningTimer = setTimeout(() => {
+      deleteToast.hidden = false;
+    }, 1000);
+  }
+
+  function hideDeleteWarning() {
+    clearTimeout(deleteWarningTimer);
+    deleteToast.hidden = true;
+  }
+
+  deleteToastResetBtn.addEventListener('click', () => performDataReset(deleteToastResetBtn));
+  deleteToastDismissBtn.addEventListener('click', hideDeleteWarning);
 
   populateMethodSelect(methodSelect);
 

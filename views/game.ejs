@@ -125,6 +125,19 @@
 </div>
 <div id="confetti" class="confetti" aria-hidden="true"></div>
 
+<!-- ===== DELETE WARNING TOAST ===== -->
+<div id="delete-toast" class="delete-toast" role="alertdialog" aria-labelledby="delete-toast-title" hidden>
+  <div class="delete-toast__card card">
+    <p class="pixel-label delete-toast__label"><span class="glyph">⚠</span> Order dropped</p>
+    <h3 id="delete-toast-title" class="delete-toast__title">Some data just got tossed out</h3>
+    <p class="muted">That DELETE request removed real data from the kitchen — it won't grow back on its own. Reset the pantry before you keep cooking?</p>
+    <div class="delete-toast__actions">
+      <button type="button" id="delete-toast-reset-btn" class="btn btn--small">↺ Reset data</button>
+      <button type="button" id="delete-toast-dismiss-btn" class="btn btn--small btn--ghost">No thank you</button>
+    </div>
+  </div>
+</div>
+
 <script src="/js/progress.js"></script>
 <script src="/js/apiClient.js"></script>
 <script src="/js/requestBuilder.js"></script>
